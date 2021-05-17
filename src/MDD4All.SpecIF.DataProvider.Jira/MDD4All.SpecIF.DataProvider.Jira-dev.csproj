@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Company>MDD4All.de</Company>
+    <Copyright>© MDD4All.de</Copyright>
+    <Description>SpecIF data provider for Atlassian Jira Cloud</Description>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>MDD4All_Github.snk</AssemblyOriginatorKeyFile>
+    <Authors>Dr. Oliver Alt</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>SpecIF DataProvider Jira</PackageTags>
+    <AssemblyName>MDD4All.SpecIF.DataProvider.Jira</AssemblyName>
+    <RootNamespace>MDD4All.SpecIF.DataProvider.Jira</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)\MDD4All.SpecIF.DataAccess.Jira\src\MDD4All.SpecIF.DataAccess.Jira\MDD4All.SpecIF.DataAccess.Jira-dev.csproj" />
+  </ItemGroup>
+
+</Project>
