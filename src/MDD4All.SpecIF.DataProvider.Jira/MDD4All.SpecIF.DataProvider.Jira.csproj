@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDD4All.SpecIF.DataAccess.Jira" Version="2.0.0.2" />
+    <PackageReference Include="MDD4All.SpecIF.DataAccess.Jira" Version="2.1.0.4" />
   </ItemGroup>
 
 </Project>
