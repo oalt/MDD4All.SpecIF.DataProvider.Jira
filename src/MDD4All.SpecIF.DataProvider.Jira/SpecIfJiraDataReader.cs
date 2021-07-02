@@ -6,23 +6,20 @@ using MDD4All.SpecIF.DataProvider.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using MDD4All.SpecIF.DataModels.Manipulation;
 using System.Diagnostics;
 using Jira3 = MDD4All.Jira.DataModels.V3;
 using MDD4All.SpecIF.DataFactory;
+using MDD4All.Jira.DataAccess;
 
 namespace MDD4All.SpecIF.DataProvider.Jira
 {
     public class SpecIfJiraDataReader : AbstractSpecIfDataReader
     {
+        private string _url = "";
 
-        private readonly HttpClient _httpClient = new HttpClient();
-
-        private string _url;
+        private JiraRestClient _jiraClient;
 
         private ISpecIfMetadataReader _metadataReader;
 
@@ -42,17 +39,9 @@ namespace MDD4All.SpecIF.DataProvider.Jira
             _url = url;
             _metadataReader = metadataReader;
 
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
+            _jiraClient = new JiraRestClient(url, userName, apiKey);
 
-            _httpClient.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-            byte[] credentials = Encoding.ASCII.GetBytes($"{userName}:{apiKey}");
-
-            AuthenticationHeaderValue authenticationHeaderValue = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentials));
-
-            _httpClient.DefaultRequestHeaders.Add("Authorization", authenticationHeaderValue.ToString());
-
+            
             if (!_projectInfoInitialized)
             {
                 InitializeProjectInformations();
@@ -88,7 +77,7 @@ namespace MDD4All.SpecIF.DataProvider.Jira
 
             _projectInformations = new Dictionary<string, Project>();
 
-            Task<ProjectSearchResponse> projectsTask = GetJiraProjectsAsync();
+            Task<ProjectSearchResponse> projectsTask = _jiraClient.GetJiraProjectsAsync();
 
             projectsTask.Wait();
 
@@ -98,7 +87,7 @@ namespace MDD4All.SpecIF.DataProvider.Jira
             {
                 foreach(Project project in projectSearchResponse.Values)
                 {
-                    Task<Project> projectTask = GetJiraProjectByKeyAsync(project.Key);
+                    Task<Project> projectTask = _jiraClient.GetJiraProjectByKeyAsync(project.Key);
 
                     projectTask.Wait();
 
@@ -115,7 +104,7 @@ namespace MDD4All.SpecIF.DataProvider.Jira
 
             _statusInformations = new List<Jira3.Status>();
 
-            Task<List<Jira3.Status>> statusTask = GetStatusesAsync();
+            Task<List<Jira3.Status>> statusTask = _jiraClient.GetStatusesAsync();
 
             statusTask.Wait();
 
@@ -174,7 +163,7 @@ namespace MDD4All.SpecIF.DataProvider.Jira
 
                 ProjectRootResources = new List<Resource>();
 
-                ProjectSearchResponse projectSearchResponse = await GetJiraProjectsAsync();
+                ProjectSearchResponse projectSearchResponse = await _jiraClient.GetJiraProjectsAsync();
 
 
 
@@ -255,34 +244,18 @@ namespace MDD4All.SpecIF.DataProvider.Jira
         {
             IssueSearchResponse result = null;
 
-            string restString = "";
+            string jql = "";
 
             if (projectID != null)
             {
-                string jql = "project = \"" + projectID + "\" and type in (Requirement, \"Customer Requirement\")";
-
-                string encodedJql = Uri.EscapeDataString(jql);
-
-                restString = _url + "/rest/api/2/search?jql=" + encodedJql;
+                jql = "project = \"" + projectID + "\" and type in (Requirement, \"Customer Requirement\")";
             }
             else
             {
-                restString = _url + "/rest/api/2/search";
+                
             }
 
-            try
-            {
-
-                string response = await _httpClient.GetStringAsync(restString);
-
-                result = JsonConvert.DeserializeObject<IssueSearchResponse>(response);
-
-            }
-            catch(Exception exception)
-            {
-                Debug.WriteLine("Error getting data from project " + projectID);
-                Debug.WriteLine(exception);
-            }
+            result = await _jiraClient.GetIssuesByJQL(jql);
 
             return result;
         }
@@ -359,7 +332,7 @@ namespace MDD4All.SpecIF.DataProvider.Jira
         {
             List<ProjectDescriptor> result = new List<ProjectDescriptor>();
 
-            Task<ProjectSearchResponse> task = GetJiraProjectsAsync();
+            Task<ProjectSearchResponse> task = _jiraClient.GetJiraProjectsAsync();
 
             task.Wait();
 
@@ -389,74 +362,27 @@ namespace MDD4All.SpecIF.DataProvider.Jira
             return result;
         }
 
-        private async Task<ProjectSearchResponse> GetJiraProjectsAsync()
-        {
-            string response = await _httpClient.GetStringAsync(_url + "/rest/api/2/project/search");
-
-            ProjectSearchResponse result = JsonConvert.DeserializeObject<ProjectSearchResponse>(response);
-
-            return result;
-        }
-
-        private async Task<Project> GetJiraProjectByKeyAsync(string projectKey)
-        {
-            Project result = null;
-
-            try
-            {
-                string response = await _httpClient.GetStringAsync(_url + "/rest/api/2/project/" + projectKey);
-
-                result = JsonConvert.DeserializeObject<Project>(response);
-            }
-            catch(Exception exception)
-            {
-                Debug.WriteLine(exception);
-            }
-
-            return result;
-        }
-
-        private async Task<List<Jira3.Status>> GetStatusesAsync()
-        {
-            List<Jira3.Status> result = new List<Jira3.Status>();
-
-            try
-            {
-                string response = await _httpClient.GetStringAsync(_url + "/rest/api/3/status");
-
-                result = JsonConvert.DeserializeObject<List<Jira3.Status>>(response);
-            }
-            catch (Exception exception)
-            {
-                Debug.WriteLine(exception);
-            }
-
-            return result;
-        }
-
         public override Resource GetResourceByKey(Key key)
         {
             Resource result = null;
 
             string issueKey = JiraGuidConverter.GetIssueIdFromSpecIfID(_url, key.ID);
 
-            string response = "";
+            Jira3.Issue response;
 
             try
             {
-                Task<string> task = GetJiraIssueAsync(issueKey);
+                Task<Jira3.Issue> task = _jiraClient.GetJiraIssueAsync(issueKey);
 
                 task.Wait();
 
                 response = task.Result;
 
-                Jira3.Issue issue = JsonConvert.DeserializeObject<Jira3.Issue>(response);
-
                 //TODO: Get specific revision
 
                 JiraToSpecIfConverter jiraToSpecIfConverter = new JiraToSpecIfConverter(_metadataReader, _statusInformations);
 
-                result = jiraToSpecIfConverter.ConvertToResource(issue);
+                result = jiraToSpecIfConverter.ConvertToResource(response);
             }
             catch(Exception exception)
             {
@@ -476,12 +402,7 @@ namespace MDD4All.SpecIF.DataProvider.Jira
             return result;
         }
 
-        private async Task<string> GetJiraIssueAsync(string issueID)
-        {
-            string response = await _httpClient.GetStringAsync(_url + "/rest/api/3/issue/" + issueID + "?expand=names,changelog");
 
-            return response;
-        }
 
         public override Statement GetStatementByKey(Key key)
         {
