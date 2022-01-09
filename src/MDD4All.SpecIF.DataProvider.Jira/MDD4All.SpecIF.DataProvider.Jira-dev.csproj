@@ -16,8 +16,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(SolutionDir)\MDD4All.SpecIF.DataAccess.Jira\src\MDD4All.SpecIF.DataAccess.Jira\MDD4All.SpecIF.DataAccess.Jira-dev.csproj" />
-    <ProjectReference Include="$(SolutionDir)\MDD4All.Jira.DataAccess\src\MDD4All.Jira.DataAccess\MDD4All.Jira.DataAccess-dev.csproj" />
+    <ProjectReference Include="..\..\..\MDD4All.Jira.DataAccess\src\MDD4All.Jira.DataAccess\MDD4All.Jira.DataAccess-dev.csproj" />
+    <ProjectReference Include="..\..\..\MDD4All.Jira.DataModels\src\MDD4All.Jira.DataModels\MDD4All.Jira.DataModels-dev.csproj" />
+    <ProjectReference Include="..\..\..\MDD4All.SpecIF.DataAccess.Jira\src\MDD4All.SpecIF.DataAccess.Jira\MDD4All.SpecIF.DataAccess.Jira-dev.csproj" />
   </ItemGroup>
 
 </Project>
