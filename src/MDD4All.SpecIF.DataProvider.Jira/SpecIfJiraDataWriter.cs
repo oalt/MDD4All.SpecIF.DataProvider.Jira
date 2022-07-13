@@ -199,11 +199,6 @@ namespace MDD4All.SpecIF.DataProvider.Jira
             throw new NotImplementedException();
         }
 
-        protected override IdentifiableElement GetItemWithLatestRevisionInBranch<T>(string id, string branch)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void AddNodeAsPredecessor(string predecessorID, Node newNode)
         {
             throw new NotImplementedException();
