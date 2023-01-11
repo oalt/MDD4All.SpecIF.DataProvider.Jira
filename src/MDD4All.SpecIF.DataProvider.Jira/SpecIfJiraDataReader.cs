@@ -2,8 +2,7 @@
 using MDD4All.SpecIF.DataAccess.Jira;
 using MDD4All.SpecIF.DataModels;
 using MDD4All.SpecIF.DataModels.Helpers;
-using MDD4All.SpecIF.DataProvider.Contracts;
-using Newtonsoft.Json;
+using MDD4All.SpecIF.DataProvider.Base;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,6 +11,7 @@ using System.Diagnostics;
 using Jira3 = MDD4All.Jira.DataModels.V3;
 using MDD4All.SpecIF.DataFactory;
 using MDD4All.Jira.DataAccess;
+using MDD4All.SpecIF.DataProvider.Contracts;
 
 namespace MDD4All.SpecIF.DataProvider.Jira
 {

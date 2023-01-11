@@ -1,12 +1,12 @@
 ﻿using MDD4All.Jira.DataModels;
 using MDD4All.SpecIF.DataModels;
-using MDD4All.SpecIF.DataModels.BaseTypes;
-using MDD4All.SpecIF.DataProvider.Contracts;
+using MDD4All.SpecIF.DataProvider.Base;
 using System;
 using System.Threading.Tasks;
 using MDD4All.SpecIF.DataModels.Manipulation;
 using MDD4All.SpecIF.DataAccess.Jira;
 using MDD4All.Jira.DataAccess;
+using MDD4All.SpecIF.DataProvider.Contracts;
 
 namespace MDD4All.SpecIF.DataProvider.Jira
 {
