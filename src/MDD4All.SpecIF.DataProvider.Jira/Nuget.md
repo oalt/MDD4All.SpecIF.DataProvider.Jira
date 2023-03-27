@@ -1,0 +1,1 @@
+﻿SpecIF data provider for Atlassian Jira.

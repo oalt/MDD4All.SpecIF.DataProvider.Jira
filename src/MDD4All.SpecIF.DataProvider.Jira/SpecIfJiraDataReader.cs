@@ -1,5 +1,5 @@
 ﻿using MDD4All.Jira.DataModels;
-using MDD4All.SpecIF.DataAccess.Jira;
+using MDD4All.SpecIF.Converters.Jira;
 using MDD4All.SpecIF.DataModels;
 using MDD4All.SpecIF.DataModels.Helpers;
 using MDD4All.SpecIF.DataProvider.Base;

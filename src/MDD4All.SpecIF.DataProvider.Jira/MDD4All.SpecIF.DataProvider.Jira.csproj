@@ -11,11 +11,20 @@
     <Authors>Dr. Oliver Alt</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>SpecIF DataProvider Jira</PackageTags>
+    <PackageReadmeFile>Nuget.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDD4All.Jira.DataAccess" Version="2.0.0.4" />
-    <PackageReference Include="MDD4All.SpecIF.DataAccess.Jira" Version="2.0.0.2" />
+    <PackageReference Include="MDD4All.Jira.DataAccess" Version="3.0.0.8" />
+    <PackageReference Include="MDD4All.SpecIF.Converters.Jira" Version="2.0.0.10" />
+    <PackageReference Include="MDD4All.SpecIF.DataProvider.Base" Version="2.0.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Nuget.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

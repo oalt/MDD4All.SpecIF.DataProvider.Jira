@@ -4,7 +4,7 @@ using MDD4All.SpecIF.DataProvider.Base;
 using System;
 using System.Threading.Tasks;
 using MDD4All.SpecIF.DataModels.Manipulation;
-using MDD4All.SpecIF.DataAccess.Jira;
+using MDD4All.SpecIF.Converters.Jira;
 using MDD4All.Jira.DataAccess;
 using MDD4All.SpecIF.DataProvider.Contracts;
 
