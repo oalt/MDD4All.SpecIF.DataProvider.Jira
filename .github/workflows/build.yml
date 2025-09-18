@@ -44,7 +44,7 @@ jobs:
       run: dotnet pack --configuration Release /p:Version=${VERSION} --no-build --output ./Output ./src/${PROJECT_NAME}/${PROJECT_NAME}.csproj
 
     - name: Upload artifact(s)
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{env.PROJECT_NAME}}.${{env.VERSION}}
         path: ./Output/*.nupkg
