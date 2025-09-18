@@ -408,5 +408,10 @@ namespace MDD4All.SpecIF.DataProvider.Jira
         {
             throw new NotImplementedException();
         }
+
+        public override string GetProjectIDFromNodeID(string nodeID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

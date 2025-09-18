@@ -204,7 +204,7 @@ namespace MDD4All.SpecIF.DataProvider.Jira
             throw new NotImplementedException();
         }
 
-        public override void DeleteNode(string nodeID)
+        public override void DeleteNode(string nodeID, string projectID)
         {
             throw new NotImplementedException();
         }
