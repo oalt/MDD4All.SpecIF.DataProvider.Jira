@@ -32,7 +32,7 @@ namespace MDD4All.SpecIF.DataProvider.Jira
             throw new NotImplementedException();
         }
 
-        public override void AddNodeAsFirstChild(string parentNodeID, Node newNode)
+        public override void AddNodeAsFirstChild(string parentNodeID, Node newNode, string projectID = null)
         {
             //throw new NotImplementedException();
         }
@@ -42,7 +42,7 @@ namespace MDD4All.SpecIF.DataProvider.Jira
             throw new NotImplementedException();
         }
 
-        public override void AddResource(Resource resource)
+        public override void AddResource(Resource resource, string projectID = null)
         {
 
             throw new NotImplementedException();
@@ -154,7 +154,7 @@ namespace MDD4All.SpecIF.DataProvider.Jira
 
         
 
-        public override void AddStatement(Statement statement)
+        public override void AddStatement(Statement statement, string projectID = null)
         {
             throw new NotImplementedException();
         }
@@ -169,12 +169,12 @@ namespace MDD4All.SpecIF.DataProvider.Jira
             throw new NotImplementedException();
         }
 
-        public override void MoveNode(string nodeID, string newParentID, string newSiblingId)
+        public override void MoveNode(string nodeID, string newParentID, string newSiblingId, string projectID = null)
         {
             throw new NotImplementedException();
         }
 
-        public override Node UpdateHierarchy(Node hierarchyToUpdate, string parentID = null, string predecessorID = null)
+        public override Node UpdateHierarchy(Node hierarchyToUpdate, string parentID = null, string predecessorID = null, string projectID = null)
         {
             throw new NotImplementedException();
         }
@@ -194,12 +194,12 @@ namespace MDD4All.SpecIF.DataProvider.Jira
             throw new NotImplementedException();
         }
 
-        public override Resource UpdateResource(Resource resource)
+        public override Resource UpdateResource(Resource resource, string projectID = null)
         {
             throw new NotImplementedException();
         }
 
-        public override void AddNodeAsPredecessor(string predecessorID, Node newNode)
+        public override void AddNodeAsPredecessor(string predecessorID, Node newNode, string projectID = null)
         {
             throw new NotImplementedException();
         }

@@ -132,7 +132,7 @@ namespace MDD4All.SpecIF.DataProvider.Jira
             return task.Result;
         }
 
-        public override Node GetHierarchyByKey(Key key)
+        public override Node GetHierarchyByKey(Key key, string projectID = null)
         {
             Node result = null;
 
